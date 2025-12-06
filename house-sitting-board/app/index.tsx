@@ -1,30 +1,41 @@
-import { Text, View, StyleSheet } from "react-native";
-import { Link, ExternalPathString } from "expo-router";
+import RoleCard from "@/features/home/components/RoleCard";
+import { homepageStyles as styles } from "@/features/home/styles";
+import { Href, useRouter } from "expo-router";
+import React, { useEffect } from "react";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRole } from "../contexts/RoleContext";
 
-export default function Index() {
+export default function RoleSelectionScreen() {
+  const { switchRole, role } = useRole();
+  const router = useRouter();
+
+  // Navigate based on role
+  useEffect(() => {
+    if (role === "service_seeker") {
+      router.replace("/(service-seeker)/my-listings" as Href);
+    } else if (role === "sitter") {
+      router.replace("/(sitter)/browse-listings" as Href);
+    }
+  }, [role]);
+
+  const handleRoleSelection = (selectedRole: "service_seeker" | "sitter") => {
+    switchRole(selectedRole);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Home screen</Text>
-      <Link href={"/about" as ExternalPathString} style={styles.button}>
-        Go to About screen
-      </Link>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.heading}>Welcome! How can we help you?</Text>
+        <RoleCard
+          label="I need a sitter"
+          onPress={() => handleRoleSelection("service_seeker")}
+        />
+        <RoleCard
+          label="I am a sitter"
+          onPress={() => handleRoleSelection("sitter")}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#25292e",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: "#fff",
-  },
-  button: {
-    fontSize: 20,
-    textDecorationLine: "underline",
-    color: "#fff",
-  },
-});
