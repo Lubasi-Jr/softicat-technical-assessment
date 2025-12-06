@@ -1,4 +1,3 @@
-// lib/services/listingService.ts
 import { supabase } from "../supabase";
 
 export interface Listing {

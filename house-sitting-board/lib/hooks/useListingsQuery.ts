@@ -1,4 +1,3 @@
-// lib/hooks/useListingsQuery.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createListing,
