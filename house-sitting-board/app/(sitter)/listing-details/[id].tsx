@@ -1,4 +1,3 @@
-// app/(sitter)/listing-detail/[id].tsx
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";

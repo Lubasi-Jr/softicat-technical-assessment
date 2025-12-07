@@ -1,0 +1,166 @@
+import { StyleSheet } from "react-native";
+
+export const editListingStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF8E7",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#FFF8E7",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E5E5",
+  },
+  backButton: {
+    padding: 8,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#0A0A0A",
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  centerContent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 32,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: "#6B6B6B",
+  },
+  errorTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#0A0A0A",
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: "#6B6B6B",
+    textAlign: "center",
+  },
+  formGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 8,
+    color: "#0A0A0A",
+  },
+  pickerContainer: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderRadius: 12,
+    overflow: "hidden",
+  },
+  picker: {
+    height: 50,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+  },
+  inputIcon: {
+    marginRight: 8,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: "#0A0A0A",
+  },
+  dateContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  dateGroup: {
+    flex: 1,
+    marginRight: 8,
+  },
+  dateButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 12,
+    height: 50,
+  },
+  dateButtonText: {
+    fontSize: 14,
+    color: "#0A0A0A",
+    marginLeft: 8,
+    flex: 1,
+  },
+  textAreaContainer: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 12,
+  },
+  textArea: {
+    fontSize: 16,
+    color: "#0A0A0A",
+    minHeight: 120,
+    textAlignVertical: "top",
+  },
+  charCount: {
+    fontSize: 12,
+    color: "#6B6B6B",
+    textAlign: "right",
+    marginTop: 4,
+  },
+  saveButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffd33d",
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 8,
+  },
+  saveButtonDisabled: {
+    opacity: 0.6,
+  },
+  saveButtonText: {
+    color: "#0A0A0A",
+    fontSize: 18,
+    fontWeight: "600",
+    marginLeft: 8,
+  },
+  deleteButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#FF3B30",
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 12,
+    marginBottom: 40,
+  },
+  deleteButtonText: {
+    color: "#FF3B30",
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 8,
+  },
+});
