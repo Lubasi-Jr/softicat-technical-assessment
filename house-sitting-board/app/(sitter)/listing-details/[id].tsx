@@ -1,10 +1,14 @@
+import { listingDetailsStyles as styles } from "@/features/sitter/listings/styles/listing-details-styles";
+import {
+  editListingFormatDate as formatDate,
+  getListingTypeLabel,
+} from "@/features/sitter/listings/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -16,42 +20,6 @@ export default function ListingDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { data: listing, isLoading, error } = useListing(id);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
-
-  const getListingTypeLabel = (type: string) => {
-    switch (type) {
-      case "PET_SITTING":
-        return "Pet Sitting";
-      case "HOUSE_SITTING":
-        return "House Sitting";
-      case "BOTH":
-        return "Pet & House Sitting";
-      default:
-        return type;
-    }
-  };
-
-  const getListingTypeIcon = (type: string) => {
-    switch (type) {
-      case "PET_SITTING":
-        return "🐕";
-      case "HOUSE_SITTING":
-        return "🏠";
-      case "BOTH":
-        return "🐕🏠";
-      default:
-        return "📋";
-    }
-  };
 
   const calculateDuration = (startDate: string, endDate: string) => {
     const start = new Date(startDate);
@@ -70,7 +38,7 @@ export default function ListingDetailScreen() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="arrow-back" size={24} color="#1A1A1A" />
+            <Ionicons name="arrow-back" size={24} color="#0A0A0A" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Listing Details</Text>
           <View style={{ width: 40 }} />
@@ -92,7 +60,7 @@ export default function ListingDetailScreen() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="arrow-back" size={24} color="#1A1A1A" />
+            <Ionicons name="arrow-back" size={24} color="#0A0A0A" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Listing Details</Text>
           <View style={{ width: 40 }} />
@@ -119,7 +87,7 @@ export default function ListingDetailScreen() {
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons name="arrow-back" size={24} color="#1A1A1A" />
+          <Ionicons name="arrow-back" size={24} color="#0A0A0A" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Listing Details</Text>
         <View style={{ width: 40 }} />
@@ -129,9 +97,6 @@ export default function ListingDetailScreen() {
         {/* Type Badge */}
         <View style={styles.typeBadgeContainer}>
           <View style={styles.typeBadge}>
-            <Text style={styles.typeBadgeIcon}>
-              {getListingTypeIcon(listing.listing_type)}
-            </Text>
             <Text style={styles.typeBadgeText}>
               {getListingTypeLabel(listing.listing_type)}
             </Text>
@@ -141,7 +106,6 @@ export default function ListingDetailScreen() {
         {/* Location Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Ionicons name="location" size={24} color="#007AFF" />
             <Text style={styles.sectionTitle}>Location</Text>
           </View>
           <Text style={styles.locationText}>{listing.location}</Text>
@@ -150,7 +114,6 @@ export default function ListingDetailScreen() {
         {/* Dates Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Ionicons name="calendar" size={24} color="#007AFF" />
             <Text style={styles.sectionTitle}>Service Period</Text>
           </View>
           <View style={styles.dateCard}>
@@ -169,7 +132,6 @@ export default function ListingDetailScreen() {
             </View>
           </View>
           <View style={styles.durationBadge}>
-            <Ionicons name="time-outline" size={16} color="#007AFF" />
             <Text style={styles.durationText}>
               {duration} {duration === 1 ? "day" : "days"}
             </Text>
@@ -179,7 +141,6 @@ export default function ListingDetailScreen() {
         {/* Description Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Ionicons name="document-text" size={24} color="#007AFF" />
             <Text style={styles.sectionTitle}>Description</Text>
           </View>
           <Text style={styles.descriptionText}>{listing.description}</Text>
@@ -188,7 +149,6 @@ export default function ListingDetailScreen() {
         {/* Status Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Ionicons name="information-circle" size={24} color="#007AFF" />
             <Text style={styles.sectionTitle}>Status</Text>
           </View>
           <View
@@ -225,176 +185,3 @@ export default function ListingDetailScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF8E7",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#FFF8E7",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E5E5",
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1A1A1A",
-  },
-  content: {
-    flex: 1,
-  },
-  centerContent: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 32,
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: "#6B6B6B",
-  },
-  errorTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  errorMessage: {
-    fontSize: 14,
-    color: "#6B6B6B",
-    textAlign: "center",
-  },
-  typeBadgeContainer: {
-    alignItems: "center",
-    paddingVertical: 24,
-  },
-  typeBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 24,
-    borderWidth: 2,
-    borderColor: "#007AFF",
-  },
-  typeBadgeIcon: {
-    fontSize: 28,
-    marginRight: 8,
-  },
-  typeBadgeText: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#007AFF",
-  },
-  section: {
-    backgroundColor: "#FFFFFF",
-    marginHorizontal: 16,
-    marginBottom: 16,
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#E5E5E5",
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginLeft: 8,
-  },
-  locationText: {
-    fontSize: 16,
-    color: "#1A1A1A",
-    lineHeight: 24,
-  },
-  dateCard: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#F8F9FA",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  dateItem: {
-    flex: 1,
-  },
-  dateDivider: {
-    width: 1,
-    backgroundColor: "#E5E5E5",
-    marginHorizontal: 16,
-  },
-  dateLabel: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#6B6B6B",
-    marginBottom: 4,
-    textTransform: "uppercase",
-  },
-  dateValue: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#1A1A1A",
-  },
-  durationBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    backgroundColor: "#E7F5FF",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-  },
-  durationText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#007AFF",
-    marginLeft: 4,
-  },
-  descriptionText: {
-    fontSize: 16,
-    color: "#1A1A1A",
-    lineHeight: 24,
-  },
-  statusBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 12,
-  },
-  statusActive: {
-    backgroundColor: "#E7F5E7",
-  },
-  statusCompleted: {
-    backgroundColor: "#F8F9FA",
-  },
-  statusCancelled: {
-    backgroundColor: "#FFE5E5",
-  },
-  statusText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginLeft: 6,
-  },
-  bottomPadding: {
-    height: 40,
-  },
-});

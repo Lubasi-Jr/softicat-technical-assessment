@@ -1,7 +1,7 @@
-import BrowseListingsLoadingState from "@/features/sitter/listings/components/BrowseListingsLoadingState";
-import BrowsListingsErrorState from "@/features/sitter/listings/components/BrowsListingsErrorState";
+import ListingsErrorState from "@/features/sitter/listings/components/SitterErrorState";
+import ListingsLoadingState from "@/features/sitter/listings/components/SitterLoadingState";
 import { browseFilters as filters } from "@/features/sitter/listings/constants";
-import { browseListingStyles as styles } from "@/features/sitter/listings/styles";
+import { browseListingStyles as styles } from "@/features/sitter/listings/styles/browse-listing-styles";
 import {
   formatDate,
   getListingTypeLabel,
@@ -73,12 +73,18 @@ export default function BrowseListingsScreen() {
 
   // Loading State
   if (isLoading) {
-    return <BrowseListingsLoadingState />;
+    return <ListingsLoadingState title="Browse Listings" />;
   }
 
   // Error State
   if (error) {
-    return <BrowsListingsErrorState error={error} onRetry={refetch} />;
+    return (
+      <ListingsErrorState
+        title="Browse Listings"
+        error={error}
+        onRetry={refetch}
+      />
+    );
   }
 
   // Empty State

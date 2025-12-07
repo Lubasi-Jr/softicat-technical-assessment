@@ -1,3 +1,10 @@
+import SavedListingsEmptyState from "@/features/sitter/listings/components/SavedListingsEmptyState";
+import ListingsErrorState from "@/features/sitter/listings/components/SitterErrorState";
+import { savedListingStyles as styles } from "@/features/sitter/listings/styles/saved-listing-styles";
+import {
+  formatDate,
+  getListingTypeLabel,
+} from "@/features/sitter/listings/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { Href, useRouter } from "expo-router";
@@ -7,7 +14,6 @@ import {
   Alert,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -30,9 +36,6 @@ export default function SavedListingsScreen() {
     isRefetching,
   } = useSavedListings(CURRENT_SITTER_ID);
   const unsaveMutation = useUnsaveListing();
-
-  // Fetch full listing details for each saved listing
-  const savedListingIds = savedListings.map((sl) => sl.listing_id);
 
   const handleViewListing = (listingId: string) => {
     router.push(`/(sitter)/listing-details/${listingId}` as Href);
@@ -61,37 +64,6 @@ export default function SavedListingsScreen() {
     );
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
-
-  const getListingTypeLabel = (type: string) => {
-    switch (type) {
-      case "PET_SITTING":
-        return "Pet Sitting";
-      case "HOUSE_SITTING":
-        return "House Sitting";
-      case "BOTH":
-        return "Pet & House Sitting";
-      default:
-        return type;
-    }
-  };
-
-  const getListingTypeIcon = (type: string) => {
-    switch (type) {
-      case "PET_SITTING":
-        return "🐕";
-      case "HOUSE_SITTING":
-        return "🏠";
-      case "BOTH":
-        return "🐕🏠";
-      default:
-        return "📋";
-    }
-  };
-
   // Loading State
   if (isLoading) {
     return (
@@ -110,53 +82,17 @@ export default function SavedListingsScreen() {
   // Error State
   if (error) {
     return (
-      <SafeAreaView style={styles.container} edges={["bottom"]}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Saved Listings</Text>
-        </View>
-        <View style={styles.centerContent}>
-          <Ionicons name="alert-circle-outline" size={64} color="#FF3B30" />
-          <Text style={styles.errorTitle}>Oops! Something went wrong</Text>
-          <Text style={styles.errorMessage}>
-            {error instanceof Error
-              ? error.message
-              : "Failed to load saved listings"}
-          </Text>
-          <TouchableOpacity
-            style={styles.retryButton}
-            onPress={() => refetch()}
-          >
-            <Text style={styles.retryButtonText}>Try Again</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+      <ListingsErrorState
+        error={error}
+        title="Saved Listings"
+        onRetry={refetch}
+      />
     );
   }
 
   // Empty State
   if (savedListings.length === 0) {
-    return (
-      <SafeAreaView style={styles.container} edges={["bottom"]}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Saved Listings</Text>
-          <Text style={styles.subtitle}>0 listings saved</Text>
-        </View>
-        <View style={styles.centerContent}>
-          <Ionicons name="heart-outline" size={64} color="#6B6B6B" />
-          <Text style={styles.emptyTitle}>No saved listings yet</Text>
-          <Text style={styles.emptyMessage}>
-            Browse listings and save ones you're interested in
-          </Text>
-          <TouchableOpacity
-            style={styles.browseButton}
-            onPress={() => router.push("/(sitter)/browse-listings")}
-          >
-            <Ionicons name="search" size={20} color="#1A1A1A" />
-            <Text style={styles.browseButtonText}>Browse Listings</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
+    return <SavedListingsEmptyState />;
   }
 
   // Saved Listings View
@@ -188,7 +124,6 @@ export default function SavedListingsScreen() {
             onUnsave={handleUnsave}
             formatDate={formatDate}
             getListingTypeLabel={getListingTypeLabel}
-            getListingTypeIcon={getListingTypeIcon}
             isUnsaving={unsaveMutation.isPending}
           />
         ))}
@@ -206,7 +141,6 @@ function SavedListingCard({
   onUnsave,
   formatDate,
   getListingTypeLabel,
-  getListingTypeIcon,
   isUnsaving,
 }: {
   savedListing: any;
@@ -214,7 +148,6 @@ function SavedListingCard({
   onUnsave: (id: string) => void;
   formatDate: (date: string) => string;
   getListingTypeLabel: (type: string) => string;
-  getListingTypeIcon: (type: string) => string;
   isUnsaving: boolean;
 }) {
   // Fetch the full listing details
@@ -239,13 +172,6 @@ function SavedListingCard({
     return null;
   }
 
-  /* const savedDate = new Date(savedListing.saved_at);
-  const formattedSavedDate = savedDate.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }); */
-
   return (
     <TouchableOpacity
       style={styles.listingCard}
@@ -255,9 +181,6 @@ function SavedListingCard({
       {/* Card Header */}
       <View style={styles.cardHeader}>
         <View style={styles.typeContainer}>
-          <Text style={styles.typeIcon}>
-            {getListingTypeIcon(listing.listing_type)}
-          </Text>
           <Text style={styles.listingType}>
             {getListingTypeLabel(listing.listing_type)}
           </Text>
@@ -273,14 +196,14 @@ function SavedListingCard({
           {isUnsaving ? (
             <ActivityIndicator size="small" color="#FF3B30" />
           ) : (
-            <Ionicons name="close-circle" size={24} color="#FF3B30" />
+            <Ionicons name="heart" size={24} color="#FF3B30" />
           )}
         </TouchableOpacity>
       </View>
 
       {/* Location */}
       <View style={styles.locationRow}>
-        <Ionicons name="location" size={16} color="#007AFF" />
+        <Ionicons name="location" size={16} color="#6B6B6B" />
         <Text style={styles.location}>{listing.location}</Text>
       </View>
 
@@ -297,187 +220,11 @@ function SavedListingCard({
         {listing.description}
       </Text>
 
-      {/* View Details Link */}
+      {/* View Details Arrow*/}
       <View style={styles.viewDetailsContainer}>
         <Text style={styles.viewDetailsText}>View Details</Text>
-        <Ionicons name="chevron-forward" size={16} color="#007AFF" />
+        <Ionicons name="chevron-forward" size={16} color="#ffd33d" />
       </View>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF8E7",
-  },
-  header: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#1A1A1A",
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#6B6B6B",
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
-  centerContent: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 32,
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: "#6B6B6B",
-  },
-  errorTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  errorMessage: {
-    fontSize: 14,
-    color: "#6B6B6B",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  retryButton: {
-    backgroundColor: "#ffd33d",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  retryButtonText: {
-    color: "#1A1A1A",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptyMessage: {
-    fontSize: 14,
-    color: "#6B6B6B",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  browseButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ffd33d",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  browseButtonText: {
-    color: "#1A1A1A",
-    fontSize: 16,
-    fontWeight: "600",
-    marginLeft: 8,
-  },
-  listingCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: "#E5E5E5",
-  },
-  savedBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    backgroundColor: "#FFE5E5",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  savedBadgeText: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#FF3B30",
-    marginLeft: 4,
-  },
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  typeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
-  typeIcon: {
-    fontSize: 24,
-    marginRight: 8,
-  },
-  listingType: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1A1A1A",
-  },
-  unsaveButton: {
-    padding: 4,
-  },
-  locationRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  location: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#1A1A1A",
-    marginLeft: 6,
-  },
-  dateRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  dates: {
-    fontSize: 14,
-    color: "#6B6B6B",
-    marginLeft: 6,
-  },
-  description: {
-    fontSize: 14,
-    color: "#1A1A1A",
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  viewDetailsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  viewDetailsText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#007AFF",
-    marginRight: 4,
-  },
-  bottomPadding: {
-    height: 20,
-  },
-});
