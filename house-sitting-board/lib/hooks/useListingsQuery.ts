@@ -19,9 +19,7 @@ export const listingKeys = {
   active: () => [...listingKeys.all, "active"] as const,
 };
 
-/**
- * Hook to fetch all listings for a service seeker
- */
+// Hook to fetch all listings made my the service seeker
 export function useListings(seekerId: string) {
   return useQuery({
     queryKey: listingKeys.bySeeker(seekerId),
@@ -34,9 +32,7 @@ export function useListings(seekerId: string) {
   });
 }
 
-/**
- * Hook to fetch a single listing by ID
- */
+// Hook to fetch a single listing by ID
 export function useListing(listingId: string) {
   return useQuery({
     queryKey: listingKeys.detail(listingId),
@@ -49,9 +45,7 @@ export function useListing(listingId: string) {
   });
 }
 
-/**
- * Hook to fetch all active listings (for sitters)
- */
+// Hook to fetch all active listings (for sitters)
 export function useActiveListings() {
   return useQuery({
     queryKey: listingKeys.active(),
@@ -63,9 +57,7 @@ export function useActiveListings() {
   });
 }
 
-/**
- * Hook to create a new listing
- */
+// Hook to create a new listing
 export function useCreateListing() {
   const queryClient = useQueryClient();
 
@@ -88,9 +80,7 @@ export function useCreateListing() {
   });
 }
 
-/**
- * Hook to update an existing listing
- */
+// Hook to update an existing listing
 export function useUpdateListing() {
   const queryClient = useQueryClient();
 
@@ -125,9 +115,7 @@ export function useUpdateListing() {
   });
 }
 
-/**
- * Hook to delete a listing
- */
+// Hook to delete listings
 export function useDeleteListing() {
   const queryClient = useQueryClient();
 
@@ -175,7 +163,7 @@ export function useActiveListingsWithFilter(
 
       if (!data) return [];
 
-      // Filter by type if specified
+      // Filter by type
       if (listingType) {
         return data.filter((listing) => listing.listing_type === listingType);
       }

@@ -29,9 +29,7 @@ export interface UpdateListingInput {
   status?: "ACTIVE" | "COMPLETED" | "CANCELLED";
 }
 
-/**
- * Fetch all listings for a specific service seeker
- */
+// Fetch all the listings made by the Service Seeker
 export async function getListingsBySeekerId(seekerId: string): Promise<{
   data: Listing[] | null;
   error: Error | null;
@@ -57,9 +55,6 @@ export async function getListingsBySeekerId(seekerId: string): Promise<{
   }
 }
 
-/**
- * Fetch a single listing by ID
- */
 export async function getListingById(listingId: string): Promise<{
   data: Listing | null;
   error: Error | null;
@@ -85,9 +80,7 @@ export async function getListingById(listingId: string): Promise<{
   }
 }
 
-/**
- * Create a new listing
- */
+// CRUD FUNCTIONS USING SUPABASE
 export async function createListing(input: CreateListingInput): Promise<{
   data: Listing | null;
   error: Error | null;
@@ -113,9 +106,6 @@ export async function createListing(input: CreateListingInput): Promise<{
   }
 }
 
-/**
- * Update an existing listing
- */
 export async function updateListing(
   listingId: string,
   input: UpdateListingInput
@@ -145,9 +135,6 @@ export async function updateListing(
   }
 }
 
-/**
- * Delete a listing
- */
 export async function deleteListing(listingId: string): Promise<{
   success: boolean;
   error: Error | null;
@@ -172,9 +159,6 @@ export async function deleteListing(listingId: string): Promise<{
   }
 }
 
-/**
- * Fetch all active listings (for sitters to browse)
- */
 export async function getActiveListings(): Promise<{
   data: Listing[] | null;
   error: Error | null;

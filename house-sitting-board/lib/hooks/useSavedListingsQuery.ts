@@ -1,4 +1,3 @@
-// lib/hooks/useSavedListingsQuery.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   CreateSavedListingInput,
@@ -17,9 +16,7 @@ export const savedListingKeys = {
     [...savedListingKeys.all, "ids", sitterId] as const,
 };
 
-/**
- * Hook to fetch all saved listings for a sitter
- */
+// Hook to fetch all the saved listings by the sitter
 export function useSavedListings(sitterId: string) {
   return useQuery({
     queryKey: savedListingKeys.bySitter(sitterId),
@@ -32,9 +29,7 @@ export function useSavedListings(sitterId: string) {
   });
 }
 
-/**
- * Hook to get saved listing IDs (for quick checking if a listing is saved)
- */
+// Hook to get saved listing IDs: Used to quickly check if a listing is saved and conditionally render the heart filled icon
 export function useSavedListingIds(sitterId: string) {
   return useQuery({
     queryKey: savedListingKeys.ids(sitterId),
@@ -47,9 +42,8 @@ export function useSavedListingIds(sitterId: string) {
   });
 }
 
-/**
- * Hook to save a listing
- */
+// Hooks to mark listings as Saved OR Unsaved
+
 export function useSaveListing() {
   const queryClient = useQueryClient();
 
@@ -71,9 +65,6 @@ export function useSaveListing() {
   });
 }
 
-/**
- * Hook to unsave a listing
- */
 export function useUnsaveListing() {
   const queryClient = useQueryClient();
 

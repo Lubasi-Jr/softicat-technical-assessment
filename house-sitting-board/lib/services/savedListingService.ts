@@ -12,9 +12,7 @@ export interface CreateSavedListingInput {
   listing_id: string;
 }
 
-/**
- * Check if a listing is saved by a sitter
- */
+// Function to check if a listing is saved by the sitter
 export async function isListingSaved(
   sitterId: string,
   listingId: string
@@ -44,9 +42,7 @@ export async function isListingSaved(
   }
 }
 
-/**
- * Get all saved listings for a sitter
- */
+// Get all saved listings for a sitter
 export async function getSavedListingsBySitterId(sitterId: string): Promise<{
   data: SavedListing[] | null;
   error: Error | null;
@@ -71,9 +67,7 @@ export async function getSavedListingsBySitterId(sitterId: string): Promise<{
   }
 }
 
-/**
- * Save a listing
- */
+// Save a Listing
 export async function saveListing(input: CreateSavedListingInput): Promise<{
   data: SavedListing | null;
   error: Error | null;
@@ -99,9 +93,7 @@ export async function saveListing(input: CreateSavedListingInput): Promise<{
   }
 }
 
-/**
- * Unsave a listing
- */
+// Unsave a listing
 export async function unsaveListing(
   sitterId: string,
   listingId: string
@@ -130,9 +122,7 @@ export async function unsaveListing(
   }
 }
 
-/**
- * Get saved listing IDs for a sitter (useful for checking multiple at once)
- */
+//Get saved listing IDs for a sitter (useful for checking multiple at once)
 export async function getSavedListingIds(sitterId: string): Promise<{
   data: string[] | null;
   error: Error | null;
