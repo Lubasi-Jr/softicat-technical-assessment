@@ -41,7 +41,7 @@ export default function SitterLayout() {
         options={{
           title: "Saved",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="menu" size={24} color={color} />
+            <Ionicons name="heart" size={24} color={color} />
           ),
           headerShown: false,
         }}
