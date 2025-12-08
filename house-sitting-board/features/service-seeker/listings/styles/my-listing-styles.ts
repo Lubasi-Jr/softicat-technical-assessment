@@ -34,7 +34,7 @@ export const myListingStyles = StyleSheet.create({
   errorTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     marginTop: 16,
     marginBottom: 8,
   },
@@ -51,14 +51,14 @@ export const myListingStyles = StyleSheet.create({
     borderRadius: 8,
   },
   retryButtonText: {
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     fontSize: 16,
     fontWeight: "600",
   },
   emptyTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     marginTop: 16,
     marginBottom: 8,
   },
@@ -77,7 +77,7 @@ export const myListingStyles = StyleSheet.create({
     borderRadius: 8,
   },
   createButtonText: {
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     fontSize: 16,
     fontWeight: "600",
     marginLeft: 8,
@@ -102,7 +102,7 @@ export const myListingStyles = StyleSheet.create({
   listingType: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     marginBottom: 6,
   },
   dateRow: {
@@ -126,7 +126,7 @@ export const myListingStyles = StyleSheet.create({
   },
   listingDescription: {
     fontSize: 14,
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     lineHeight: 20,
     marginBottom: 8,
   },
@@ -137,7 +137,7 @@ export const myListingStyles = StyleSheet.create({
     borderRadius: 8,
   },
   editButtonText: {
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     fontSize: 14,
     fontWeight: "400",
   },
@@ -160,6 +160,6 @@ export const myListingStyles = StyleSheet.create({
   statusText: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#1A1A1A",
+    color: "#0A0A0A",
   },
 });

@@ -34,7 +34,7 @@ export const homepageStyles = StyleSheet.create({
   rolePrimaryText: {
     fontSize: 15,
     fontWeight: "500",
-    color: "#1A1A1A",
+    color: "#0A0A0A",
     marginBottom: 4,
   },
 });
